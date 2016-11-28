@@ -1,0 +1,31 @@
+---
+title: "Video Game Sales"
+author: "Jing Li"
+date: '`r format(Sys.time(), "%B %d, %Y")`'
+output:
+  html_notebook:
+    toc: true
+    theme: lumen
+---
+
+# import data
+
+The dataset was downloaded from https://www.kaggle.com. 
+
+```{r, echo=FALSE, message=FALSE}
+options(width = 119)
+library(readr)
+options("readr.num_columns" = 0)
+vgsales <- read_csv("vgsales.csv")
+```
+
+# data overview
+
+
+```{r, message=FALSE}
+library(dplyr)
+vgsales %>% 
+  select(contains("_sales")) %>% 
+  summary()
+```
+
