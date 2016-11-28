@@ -44,7 +44,25 @@ Below are the summary statistics for the numerical variables:
 ```{r, message=FALSE}
 library(dplyr)
 vgsales %>% 
-  select(contains("_sales")) %>% 
+  select(contains("_Sales")) %>% 
   summary()
 ```
+
+# data visualizations
+
+## 1. genre popularity over the years
+```{r, fig.width=9}
+library(ggplot2)
+vgsales %>% 
+  ggplot(aes(x = Year, y = Global_Sales, fill = Genre)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Genre Popularity over Years", x = "Year", y = "Global Sales (in milion copies)") +
+  scale_x_discrete(breaks = as.character(seq(from = 1980, to = 2016, by = 4))) +
+  theme_classic() +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  scale_fill_brewer(palette = "Set3")
+```
+
+It seems that __Action__ game is the dominating genre since 2000, and __Sports__ game is usually the second popular genre.
+Also, the global sales peaked around __2008__ and then started to drop drammatically.
 
