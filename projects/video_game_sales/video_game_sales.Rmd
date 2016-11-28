@@ -10,7 +10,7 @@ output:
 
 # import data
 
-The dataset was downloaded from https://www.kaggle.com. 
+The dataset was downloaded from [kaggle.com](https://www.kaggle.com/gregorut/videogamesales). 
 
 ```{r, echo=FALSE, message=FALSE}
 options(width = 119)
