@@ -15,6 +15,10 @@ The dataset was downloaded from [kaggle.com](https://www.kaggle.com/gregorut/vid
 ```{r, echo=FALSE, message=FALSE}
 options(width = 119)
 library(readr)
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(ggplot2)
 options("readr.num_columns" = 0)
 vgsales <- read_csv("vgsales.csv")
 ```
