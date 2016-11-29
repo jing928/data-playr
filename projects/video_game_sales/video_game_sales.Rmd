@@ -42,7 +42,6 @@ _(sales are the number of copies)_
 Below are the summary statistics for the numerical variables:
 
 ```{r, message=FALSE}
-library(dplyr)
 vgsales %>% 
   select(contains("_Sales")) %>% 
   summary()
@@ -52,7 +51,6 @@ vgsales %>%
 
 ## 1. genre popularity over the years
 ```{r, fig.width=9}
-library(ggplot2)
 vgsales %>% 
   ggplot(aes(x = Year, y = Global_Sales, fill = Genre)) +
   geom_bar(stat = "identity") +
@@ -64,5 +62,31 @@ vgsales %>%
 ```
 
 It seems that __Action__ game is the dominating genre since 2000, and __Sports__ game is usually the second popular genre.
-Also, the global sales peaked around __2008__ and then started to drop drammatically.
+Also, the global sales peaked around __2008__ and then started to drop drammatically. 
+
+## 2. genre sales by regions
+
+```{r, fig.width=9}
+vgsales %>% 
+  group_by(Genre) %>% 
+  summarise_if(is.numeric, sum) %>% 
+  ungroup() %>% 
+  gather(Region, Sales, NA_Sales:Global_Sales) %>% 
+  mutate(Region = str_replace(Region, "_Sales$", "") %>% 
+           factor(levels = c("NA", "EU", "JP", "Other", "Global"),
+                  labels = c("North America", "Europe", "Japan", "Other", "Global"))) %>% 
+  ggplot(aes(x = Region, y = Genre)) +
+  geom_tile(aes(fill = Sales)) +
+  labs(title = "Genre Sales by Regions", x = "Region", y = "Genre") +
+  scale_fill_continuous(name = "Sales\n(in million copies)") +
+  theme_classic() +
+  theme(plot.title = element_text(hjust = 0.5), legend.title.align = 0)
+```
+
+The sales numbers are aggregated to remove the time dimension. From the graph above, we can see that in terms of sales, people from `North America` and those from `Europe` have very similar tastes as they all prefer __Action__, __Sports__, __Shooter__, and 
+__Platform__ over others, though in terms of absolute numbers, games are sold more in `North America` than in `Europe`. 
+
+However, in `Japan`, the most popular genre is __Role-Playing__, which might be due to the cultural differences.
+
+Globally, __Action__ and __Sports__ are the most popular genres.
 
