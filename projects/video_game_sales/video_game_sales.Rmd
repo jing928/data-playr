@@ -94,3 +94,32 @@ However, in `Japan`, the most popular genre is __Role-Playing__, which might be 
 
 Globally, __Action__ and __Sports__ are the most popular genres.
 
+## 3. Global Sales by Genre of the Top 10 Publishers
+
+Below shows the __Top 10__ Publishers in terms of cumulative global sales over the years:
+```{r}
+top10 <- vgsales %>% 
+  group_by(Publisher) %>% 
+  summarise(Cum_Sales = sum(Global_Sales)) %>% 
+  arrange(desc(Cum_Sales)) %>% 
+  top_n(10)
+top10 %>% pandoc.table(style = "rmarkdown")
+```
+
+```{r, fig.width=9}
+publishers <- top10$Publisher
+vgsales %>% 
+  filter(Publisher %in% publishers) %>% 
+  ggplot(aes(x = Genre, y = Global_Sales)) +
+  geom_bar(stat = "identity", aes(fill = Publisher)) +
+  coord_flip() +
+  labs(title = "Global Sales by Top 10 Publisher by Genre", xlab = "Cumulative Global Sales") +
+  theme_classic() +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  scale_fill_brewer(palette = "Set3")
+```
+
+Within the Top 10 publishers, __Sports__ games have the greatest global sales, followed by __Action__ games. 
+__Electronic Arts__ has absolute power over the __Sports__ games, while __Take-Two Interactive__ is the No. 1 __Action__
+game publisher. Although __Puzzle__, __Role Playing__ and __Platform__ games don't have the most sales, in those worlds, 
+__Nintendo__ reigns. And __Shooter__ game is __Activision__'s playground.
