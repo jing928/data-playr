@@ -3,9 +3,11 @@ title: "Video Game Sales"
 author: "Jing Li"
 date: '`r format(Sys.time(), "%B %d, %Y")`'
 output:
+  html_document:
+    toc: yes
   html_notebook:
-    toc: true
     theme: lumen
+    toc: yes
 ---
 
 # import data
