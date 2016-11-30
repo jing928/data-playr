@@ -49,8 +49,9 @@ Below are the summary statistics for the numerical variables:
 
 ```{r, message=FALSE}
 vgsales %>% 
-  select(contains("_Sales")) %>% 
-  summary()
+  select(dplyr::contains("_Sales")) %>% 
+  summary() %>% 
+  pandoc.table(style = "simple")
 ```
 
 # data visualizations
