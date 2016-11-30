@@ -69,7 +69,7 @@ vgsales %>%
 ```
 
 It seems that __Action__ game is the dominating genre since 2000, and __Sports__ game is usually the second popular genre.
-Also, the global sales peaked around __2008__ and then started to drop drammatically. 
+Also, the global sales peaked around __2008__ and then started to drop dramatically. 
 
 ## 2. genre sales by regions
 
