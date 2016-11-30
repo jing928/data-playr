@@ -10,7 +10,7 @@ output:
     toc: yes
 ---
 
-# import data
+# Import Data
 
 The dataset was downloaded from [kaggle.com](https://www.kaggle.com/gregorut/videogamesales). 
 
@@ -27,7 +27,7 @@ options("readr.num_columns" = 0)
 vgsales <- read_csv("vgsales.csv")
 ```
 
-# data overview
+# Data Overview
 
 There are __11__ variables and __16,598__ observations.
 
@@ -56,9 +56,9 @@ vgsales %>%
   pandoc.table(style = "simple")
 ```
 
-# data visualizations
+# Data Visualizations
 
-## 1. genre popularity over the years
+## 1. Genre Popularity over the Years
 ```{r, fig.width=9}
 vgsales %>% 
   ggplot(aes(x = Year, y = Global_Sales, fill = Genre)) +
@@ -73,7 +73,7 @@ vgsales %>%
 It seems that __Action__ game is the dominating genre since 2000, and __Sports__ game is usually the second popular genre.
 Also, the global sales peaked around __2008__ and then started to drop dramatically. 
 
-## 2. genre sales by regions
+## 2. Genre Sales by Regions
 
 ```{r, fig.width=9}
 vgsales %>% 
