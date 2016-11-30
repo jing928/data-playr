@@ -12,13 +12,15 @@ output:
 
 The dataset was downloaded from [kaggle.com](https://www.kaggle.com/gregorut/videogamesales). 
 
-```{r, echo=FALSE, message=FALSE}
+```{r, setup, echo=FALSE, message=FALSE}
 options(width = 119)
 library(readr)
 library(dplyr)
 library(tidyr)
+library(purrr)
 library(stringr)
 library(ggplot2)
+library(pander)
 options("readr.num_columns" = 0)
 vgsales <- read_csv("vgsales.csv")
 ```
