@@ -129,3 +129,33 @@ Within the Top 10 publishers, __Sports__ games have the greatest global sales, f
 __Electronic Arts__ has absolute power over the __Sports__ games, while __Take-Two Interactive__ is the No. 1 __Action__
 game publisher. Although __Puzzle__, __Role Playing__ and __Platform__ games don't have the most sales, in those worlds, 
 __Nintendo__ reigns. And __Shooter__ game is __Activision__'s playground.
+
+## 4. Top 5 Publishers (Global Sales) over the Decades
+
+The graph below shows how the __Top 5 Publishers__ change over time. However, it's worth noting that __2010s__ doesn't have complete data as 
+we are still in the middle of it!
+```{r, fig.width=10}
+top5bydecades <- vgsales %>% 
+  mutate(decade = cut(as.numeric(Year), breaks = c(1980, 1990, 2000, 2010, 2020), 
+                      labels = c("1980s", "1990s", "2000s", "2010s"), ordered_result = TRUE)) %>% 
+  filter(!is.na(decade)) %>% 
+  group_by(decade, Publisher) %>% 
+  summarise(Cum_Sales = sum(Global_Sales)) %>% 
+  arrange(decade, desc(Cum_Sales)) %>% 
+  top_n(5)
+
+top5bydecades %>% 
+  ggplot(aes(x = decade, y = Cum_Sales)) +
+  geom_label_repel(aes(label = Publisher), label.size = 0.2) +
+  labs(title = "Top 5 Publishers over the Decades", x = "Decade", y = "Cumulative Sales") +
+  theme_classic() +
+  theme(plot.title = element_text(hjust = 0.5))
+  
+```
+
+Legendarily, __Nintendo__ is the only one that has been in this short list for 4 decades. Founded in 1982, __Electronic Arts__ since then has been climbing on this list step by step, and 
+finally in the current decade becomes the __No.1__ game publisher as of 2016.
+
+Also, the gaming industry seems to have reached the apex during the __2000s__, even though we are only half way through the current decade, the absolute difference between __2000s__ and __2010s__ is still significantly large.
+
+## 5. XBox vs PlayStation
