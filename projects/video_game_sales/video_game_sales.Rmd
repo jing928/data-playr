@@ -160,7 +160,7 @@ finally in the current decade becomes the __No.1__ game publisher as of 2016.
 
 Also, the gaming industry seems to have reached the apex during the __2000s__, even though we are only half way through the current decade, the absolute difference between __2000s__ and __2010s__ is still significantly large.
 
-## 5. XBox vs PlayStation
+## 5. XBOX vs PlayStation
 
 ```{r, fig.width=10, fig.height=10}
 xbox_ps <- vgsales %>% 
