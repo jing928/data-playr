@@ -159,3 +159,34 @@ finally in the current decade becomes the __No.1__ game publisher as of 2016.
 Also, the gaming industry seems to have reached the apex during the __2000s__, even though we are only half way through the current decade, the absolute difference between __2000s__ and __2010s__ is still significantly large.
 
 ## 5. XBox vs PlayStation
+
+```{r, fig.width=10, fig.height=10}
+xbox_ps <- vgsales %>% 
+  filter(Platform %in% c("XB", "X360", "XOne", "PS", str_c("PS", 2:4))) %>% 
+  mutate(Platform = plyr::mapvalues(Platform, from = c("XB", "X360", "XOne", "PS", str_c("PS", 2:4)),
+                                    to = c(str_c("XBOX", c("", " 360", " One")), str_c("PlayStation ", 1:4)))) %>% 
+  group_by(Year, Platform) %>% 
+  summarise_if(is.numeric, sum) %>% 
+  ungroup() %>% 
+  gather(Region, Sales, NA_Sales:Global_Sales) %>% 
+  mutate(Region = str_replace(Region, "_Sales$", "") %>% 
+           factor(levels = c("NA", "EU", "JP", "Other", "Global"),
+                  labels = c("North America", "Europe", "Japan", "Other", "Global"))) %>% 
+  filter(!str_detect(Year, "N/A|2017"))
+
+xbox_ps %>% 
+  ggplot(aes(x = Year, y = Sales)) +
+  geom_bar(aes(fill = Platform), stat = "identity") +
+  facet_grid(Region~., scales = "free") +
+  theme_minimal() +
+  scale_fill_manual(values = c("PlayStation 1" = "#F7E8C3", "PlayStation 2" = "#EF7079", "PlayStation 3" = "#BF382A", "PlayStation 4" = "#683531", 
+                               "XBOX" = "#D5EEFF", "XBOX 360" = "#007CB9", "XBOX One" = "#005689"))
+```
+
+As two very (if not the most) famous gaming consols, __XBOX__ and __PlayStation__ have been competing against each other for over a decade.
+
+From the graph above, most of the __PlayStation__ game sales come from Japan, the home of the brand, while since its release in 2001, the popularity of 
+__XBOX__ has increased a lot global-wise. In __North America__, __XBOX__ and __PlayStation__ seem to be taking up
+the market share equally, but everywhere else, __PlayStation__ has relatively more share and in Japan, __PlayStation__ is just pure monopoly.
+
+Though introduced at around the same time, __PlayStation__ tends to outperform __XBOX One__ in every market, in terms of game sales. 
