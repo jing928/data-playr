@@ -10,7 +10,7 @@ output:
     toc: yes
 ---
 
-# Import Data
+# Data Import
 
 The dataset was downloaded from [kaggle.com](https://www.kaggle.com/gregorut/videogamesales). 
 
