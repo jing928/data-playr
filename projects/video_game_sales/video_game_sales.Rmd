@@ -25,7 +25,7 @@ library(ggplot2)
 library(ggrepel)
 library(pander)
 options("readr.num_columns" = 0)
-vgsales <- read_csv("vgsales.csv")
+vgsales <- read_csv("../../../data-hub/data_analysis/video_game_sales/vgsales.csv")
 ```
 
 # Data Overview
