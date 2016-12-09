@@ -14,36 +14,37 @@ movies_clean <- movies_raw %>%
   select(-movie_imdb_link)
 
 ## @knitr summary
+# USA only
+movies_usa <- movies_clean %>% 
+  filter(country %in% "USA") %>% 
+  mutate_at(vars(gross, budget), function(x) x / 1000000)
 
-movies_clean %>% 
-  mutate_at(vars(gross, budget), function(x) x / 1000000) %>% 
+movies_usa %>% 
   ggplot(aes(x = imdb_score, y = gross)) +
   geom_point() +
   theme_light()
 
-movies_clean %>% 
+movies_usa %>% 
   ggplot(aes(imdb_score)) +
   geom_histogram() +
   theme_light()
 
-movies_clean %>% 
-  mutate_at(vars(gross, budget), function(x) x / 1000000) %>% 
+movies_usa %>% 
   ggplot(aes(gross)) +
   geom_histogram() +
   theme_light()
 
-movies_clean %>% 
+movies_usa %>% 
   ggplot(aes(duration)) +
   geom_histogram() +
   theme_light()
 
-movies_clean %>% 
-  mutate_at(vars(gross, budget), function(x) x / 1000000) %>% 
+movies_usa %>% 
   ggplot(aes(x = duration, y = gross)) +
   geom_point() +
   theme_light()
 
-movies_clean %>% 
+movies_usa %>% 
   ggplot(aes(x = num_voted_users, y = imdb_score)) +
   geom_point() +
   theme_light()
