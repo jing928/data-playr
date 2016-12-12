@@ -2,6 +2,10 @@
 library(tidyverse)
 library(stringr)
 library(ggplot2)
+library(assertr)
+library(caret)
+library(rpart)
+library(rpart.plot)
 
 ## @knitr import
 
@@ -99,3 +103,29 @@ movies_usa %>%
   ggplot(aes(title_year, avg_facenumber)) +
   geom_line() +
   theme_light()
+
+
+## @knitr decision_tree_score
+
+# Select variables and cut score
+movies_usa_tree <- movies_usa %>% 
+  select(imdb_score,title_year, duration, num_critic_for_reviews, gross, genres, movie_title, num_voted_users,
+         facenumber_in_poster, content_rating, budget, aspect_ratio) %>% 
+  mutate(movie_grade = cut(imdb_score, breaks = c(0, 4, 6, 8, 10), labels = c("D", "C", "B", "A"))) %>% 
+  assert(not_na, movie_grade)
+
+# 80-20 split training and testing
+set.seed(6)
+sample <- createDataPartition(movies_usa_tree$movie_grade, p = 0.8, list = FALSE)
+movies_train <- movies_usa_tree[sample, ]
+movies_test <- movies_usa_tree[-sample, ]
+
+# run model
+movies_formula <- movie_grade ~ 
+movies_rpart <- rpart(formula = movies_formula)
+
+
+
+
+
+
