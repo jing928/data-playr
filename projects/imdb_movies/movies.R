@@ -109,21 +109,36 @@ movies_usa %>%
 
 # Select variables and cut score
 movies_usa_tree <- movies_usa %>% 
-  select(imdb_score,title_year, duration, num_critic_for_reviews, gross, genres, movie_title, num_voted_users,
+  select(imdb_score,title_year, director_name, duration, num_critic_for_reviews, gross, genres, movie_title, num_voted_users,
          facenumber_in_poster, content_rating, budget, aspect_ratio) %>% 
+  filter(complete.cases(.)) %>% 
+  distinct(movie_title, title_year, director_name, .keep_all = TRUE) %>% 
   mutate(movie_grade = cut(imdb_score, breaks = c(0, 4, 6, 8, 10), labels = c("D", "C", "B", "A"))) %>% 
-  assert(not_na, movie_grade)
+  separate_rows(genres, sep = "\\|") %>% 
+  mutate(is_genre = TRUE,
+         genres = str_replace(genres, "-", "_")) %>% 
+  group_by(movie_title, title_year, director_name) %>% 
+  do(spread(., genres, is_genre)) %>% 
+  ungroup() %>% 
+  mutate_at(vars(Drama:Film_Noir), function(col) coalesce(col, FALSE)) %>% 
+  mutate_at(vars(content_rating, aspect_ratio), as.factor) %>% 
+  assert(not_na, movie_grade) 
 
 # 80-20 split training and testing
 set.seed(6)
 sample <- createDataPartition(movies_usa_tree$movie_grade, p = 0.8, list = FALSE)
-movies_train <- movies_usa_tree[sample, ]
-movies_test <- movies_usa_tree[-sample, ]
+movies_train <- movies_usa_tree[sample, ] %>% 
+  select(-imdb_score, -director_name, -movie_title)
+movies_test <- movies_usa_tree[-sample, ] %>% 
+  select(-imdb_score, -director_name, -movie_title)
 
 # run model
-movies_formula <- movie_grade ~ 
-movies_rpart <- rpart(formula = movies_formula)
 
+tree_param <- rpart.control()
+movies_rpart <- rpart(formula = movie_grade ~ ., 
+                      data = movies_train, control = tree_param)
+
+rpart.plot(movies_rpart)
 
 
 
