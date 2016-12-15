@@ -9,7 +9,8 @@ library(rpart.plot)
 
 ## @knitr import
 
-movies_raw <- read_csv("../data-hub/data_analysis/imdb_movies/movie_metadata.csv", col_types = cols(budget = "d", gross = "d"))
+movies_raw <- read_csv("../data-hub/data_analysis/imdb_movies/movie_metadata.csv", 
+                       col_types = cols(budget = "d", gross = "d"))
 
 ## @knitr clean
 
