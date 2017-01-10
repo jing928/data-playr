@@ -1,0 +1,18 @@
+---
+title: "chinatown"
+author: "Jing Li"
+date: "January 9, 2017"
+output: html_document
+---
+
+```{r setup, echo=FALSE, message=FALSE}
+library(ggmap)
+library(dplyr)
+library(tidyr)
+library(rvest)
+library(stringr)
+library(tibble)
+```
+
+
+
