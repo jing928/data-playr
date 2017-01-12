@@ -4,6 +4,7 @@ library(tidyr)
 library(rvest)
 library(stringr)
 library(tibble)
+library(zipcode)
 
 url <- "http://www.usatoday.com/story/travel/destinations/2014/03/08/chinatown-chinese-asian-food/6173601/"
 
@@ -19,7 +20,7 @@ city <- usa_news %>%
 ct_ft <- city %>% 
   bind_cols(
     tribble(
-      ~zip_chinatown, ~zip_financial,
+      ~Chinatown, ~Financial,
       "94108", "94111",
       "10013", "10038",
       "60616", "60605",
@@ -35,10 +36,52 @@ ct_ft <- city %>%
 ct_ft_dist <- ct_ft %>% 
   bind_cols(
     ., 
-    mapdist(.$zip_chinatown, .$zip_financial)
+    mapdist(.$Chinatown, .$Financial)
   )
 
+data("zipcode")
 
+ct_ft_zips <- ct_ft %>% 
+  gather(Area, zip, -city) %>% 
+  left_join(zipcode %>% 
+              select(-city),
+            by = "zip") %>% 
+  arrange(city)
+
+
+map_area <- function(city, state, zoom, size) {
+  ggmap(get_map(str_c(city, ", ", state), zoom = zoom, maptype = "toner-lite", source = "google")) +
+    geom_point(data = ct_ft_zips %>% filter(state == state), 
+               aes(x = longitude, y = latitude, color = Area), size = size) +
+    labs(x = "Longitude", y = "Latitude")
+}
+
+# Boston
+map_area("Boston", "MA", 14, 5)
+
+# Chicago
+map_area("Chicago", "IL", 13, 5)
+
+# Houston
+map_area("Houston", "TX", 11, 5)
+
+# Los Angeles
+map_area("Los Angeles", "CA", 13, 5)
+
+# New York City
+map_area("Lower Manhattan", "NY", 14, 5)
+
+# Philadelphia
+map_area("Philadelphia", "PA", 14, 5)
+
+# San Francisco
+map_area("San Francisco", "CA", 13, 5)
+
+# Seattle
+map_area("Seattle", "WA", 13, 5)
+
+# Washington, D.C.
+map_area("Washington", "DC", 14, 5)
 
 
 # ct_fd <- city %>%
