@@ -36,8 +36,9 @@ ct_ft <- city %>%
 ct_ft_dist <- ct_ft %>% 
   bind_cols(
     ., 
-    mapdist(.$Chinatown, .$Financial)
-  )
+    mapdist(.$Chinatown, .$Financial, mode = "walking", output = "simple")
+  ) %>% 
+  arrange(km)
 
 data("zipcode")
 
